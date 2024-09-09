@@ -24,6 +24,6 @@ jobs:
       directory: products/sde/analytics-workspace-management/awms-guacamole-operator
       subdirectory: "/helm"
       update_yaml_file: "./values.yaml"
-      update_yaml_field: ".image"
+      update_yaml_field: ".image" 
       update_yaml_value: "lscsde/awms-guacamole-operator:${{ needs.buildandpush.outputs.GitVersion_SemVer }}"
     secrets: inherit
