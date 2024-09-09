@@ -1,0 +1,26 @@
+name: Docker build and push
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - 'main'
+
+jobs:
+  buildandpush:
+    uses: lsc-sde/lsc-sde/.github/workflows/docker-release.yaml@main
+    with:
+      imageName: awms-guacamole-operator
+      directory: products/sde/analytics-workspace-management/awms-guacamole-operator
+      platforms: '["amd64"]'
+    secrets: inherit
+  
+  helm_package:
+    uses: lsc-sde/lsc-sde/.github/workflows/helm-package.yaml@main
+    needs: 
+    - buildandpush
+    with:
+      symver: ${{ needs.buildandpush.outputs.GitVersion_SemVer }}
+      directory: products/sde/analytics-workspace-management/awms-guacamole-operator
+      subdirectory: "/helm"
+    secrets: inherit
