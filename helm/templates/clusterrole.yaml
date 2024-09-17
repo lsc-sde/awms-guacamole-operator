@@ -38,6 +38,6 @@ rules:
   resources: ["analyticsworkspacebindings", "analyticsworkspaces"]
   verbs: ["get", "watch", "list"]
 
-- apiGroups: ["networking.k8s.io"]
-  resources: ["analyticsworkspacebindings/status", "analyticsworkspaces/status"]
+- apiGroups: ["xlscsde.nhs.uk"]
+  resources: ["analyticsworkspacebindings/status", "analyticsworkspaces/status", "analyticsworkspacebindings/scale", "analyticsworkspaces/scale"]
   verbs: ["patch"]

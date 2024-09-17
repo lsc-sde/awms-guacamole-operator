@@ -1,10 +1,11 @@
-FROM python:alpine
+FROM python:3.12-alpine
 
 ENV DB_NAME="guacamole"
 ENV DB_HOST="k3d-postgres-postgresql.postgres-on-k3d.svc.cluster.local"
 ENV DB_USER="guacamole"
 ENV DB_PASS="guacamole"
 ENV DB_PORT="5432"
+ENV IMAGE_NAME="lscsde/analytics-vnc-client:0.1.5"
 
 RUN apk add gcc
 RUN pip install --upgrade pip

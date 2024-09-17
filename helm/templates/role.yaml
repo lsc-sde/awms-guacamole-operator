@@ -1,0 +1,17 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+rules:
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["get", "list", "patch", "create", "delete"]
+
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "patch", "create", "delete"]
+
+- apiGroups: ["xlscsde.nhs.uk"]
+  resources: ["analyticsworkspacebindings/status", "analyticsworkspaces/status"]
+  verbs: ["patch"]
