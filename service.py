@@ -20,6 +20,8 @@ group : str = "xlscsde.nhs.uk"
 kind : str = "AnalyticsWorkspaceBinding"
 plural : str = "analyticsworkspacebindings"
 version : str = "v1"
+max_connections : int = 1000
+max_connections_per_user : int = 1000
 api_version : str = f"{group}/{version}"
 kube_config = {}
 
@@ -40,7 +42,7 @@ def create_connection_group(body, cursor, name : str):
     cursor.execute("SELECT connection_group_id FROM public.guacamole_connection_group WHERE connection_group_name = %s;", [ name ])
     connection_group_id = cursor.fetchone()
     if not connection_group_id:
-        cursor.execute("INSERT INTO public.guacamole_connection_group (connection_group_name, type, max_connections, max_connections_per_user, enable_session_affinity) VALUES (%s, 'ORGANIZATIONAL', 1000, 1000, true);", [ name ])
+        cursor.execute("INSERT INTO public.guacamole_connection_group (connection_group_name, type, max_connections, max_connections_per_user, enable_session_affinity) VALUES (%s, 'ORGANIZATIONAL', %s, %s, true);", [ name, max_connections, max_connections_per_user ])
         cursor.execute("SELECT connection_group_id FROM public.guacamole_connection_group WHERE connection_group_name = %s;", [ name ])
         connection_group_id = cursor.fetchone()
         kopf.info(body, reason='DbUpsert', message=f"Connection group `{name}` has been created")
@@ -150,6 +152,18 @@ def create_deployment_object(deployment_name, username, workspace, replicas):
         name=deployment_name,
         image=os.environ.get("IMAGE_NAME"),
         ports=[client.V1ContainerPort(container_port=5900)],
+        volume_mounts=[
+            client.V1VolumeMount(
+                name="guacamole-certificates",
+                mount_path="/usr/lib/firefox/distribution/certs",
+                read_only=True
+            ),
+            client.V1VolumeMount(
+                name="firefox-config",
+                mount_path="/usr/lib/firefox/distribution",
+                read_only=True
+            ),
+        ]
     )
 
     # Create and configure a spec section
@@ -162,7 +176,23 @@ def create_deployment_object(deployment_name, username, workspace, replicas):
                 "xlscsde.nhs.uk/workspace" : workspace, 
                 "xlscsde.nhs.uk/username" : username
             }),
-        spec=client.V1PodSpec(containers=[container]),
+        spec=client.V1PodSpec(
+            containers=[container],
+            volumes=[
+                client.V1Volume(
+                    name="guacamole-certificates",
+                    config_map=client.V1ConfigMapVolumeSource(
+                        name="xlscsde-enterprise-certificate"
+                    )
+                ),
+                client.V1Volume(
+                    name="firefox-config",
+                    config_map=client.V1ConfigMapVolumeSource(
+                        name="firefox-config"
+                    )
+                ),
+            ]
+            ),
     )
 
     # Create the specification of deployment

@@ -1,0 +1,70 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: firefox-config
+data:
+  distribution.ini: |-
+    [Global]
+    id=mozilla-deb
+    version=1.0
+    about=Mozilla Firefox Debian Package
+
+    [Preferences]
+    intl.locale.requested=""
+    dom.ipc.forkserver.enable=true
+    browser.gnome-search-provider.enabled=true
+
+  policies.json: |-
+    {
+      "policies": {
+        "CaptivePortal": true,
+        "DisableDeveloperTools": true,
+        "DisableEncryptedClientHello": true,
+        "DisableFeedbackCommands": true,
+        "DisableFirefoxAccounts": true,
+        "DisableFirefoxScreenshots": true,
+        "DisableFirefoxStudies": true,
+        "DisableForgetButton": true,
+        "DisableFormHistory": true,
+        "DisableMasterPasswordCreation": true,
+        "DisablePasswordReveal": true,
+        "DisablePocket": true,
+        "DisablePrivateBrowsing": true,
+        "DisableProfileImport": true,
+        "DisableProfileRefresh": true,
+        "DisableSafeMode": true,
+        "DisableSecurityBypass": {
+          "InvalidCertificate": true,
+          "SafeBrowsing": true
+        },
+        "DisableSetDesktopBackground": true,
+        "DisableSystemAddonUpdate": true,
+        "DisableTelemetry": true,
+        "FirefoxHome": {
+          "Search": false,
+          "TopSites": false,
+          "SponsoredTopSites": false,
+          "Highlights": false,
+          "Pocket": false,
+          "SponsoredPocket": false,
+          "Snippets": false,
+          "Locked": true
+        },
+        "FirefoxSuggest": {
+          "WebSuggestions": false,
+          "SponsoredSuggestions": false,
+          "ImproveSuggest": false,
+          "Locked": true
+        },
+        "InstallAddonsPermission" : {
+          "Default" : false
+        },
+        "SearchSuggestEnabled": false,
+        "Certificates": {
+          "Install": [
+            "/usr/lib/firefox/distribution/certs/enterprise.crt"
+          ]
+        }
+      }
+    }
+  

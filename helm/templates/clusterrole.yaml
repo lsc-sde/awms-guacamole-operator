@@ -36,7 +36,7 @@ rules:
 # CRDs
 - apiGroups: ["xlscsde.nhs.uk"]
   resources: ["analyticsworkspacebindings", "analyticsworkspaces"]
-  verbs: ["get", "watch", "list"]
+  verbs: ["get", "watch", "list", "patch"]
 
 - apiGroups: ["xlscsde.nhs.uk"]
   resources: ["analyticsworkspacebindings/status", "analyticsworkspaces/status", "analyticsworkspacebindings/scale", "analyticsworkspaces/scale"]
