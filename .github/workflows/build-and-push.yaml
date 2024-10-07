@@ -17,7 +17,7 @@ jobs:
     secrets: inherit
   
   helm_package:
-    uses: lsc-sde/lsc-sde/.github/workflows/helm-package.yaml@main
+    uses: lsc-sde/lsc-sde/.github/workflows/helm-release.yaml@main
     needs: 
     - buildandpush
     with:
