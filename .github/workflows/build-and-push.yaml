@@ -42,7 +42,7 @@ jobs:
     uses: lsc-sde/lsc-sde/.github/workflows/update-yaml.yaml@main
     needs: 
     - buildandpush
-    - helm_package
+    - update-helm-yaml
     with:
       repository: lsc-sde/iac-flux-lscsde
       path: "core/flux-config.yaml"
