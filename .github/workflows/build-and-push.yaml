@@ -24,7 +24,6 @@ jobs:
       symver: ${{ needs.buildandpush.outputs.GitVersion_SemVer }}
       directory: products/sde/analytics-workspace-management/awms-guacamole-operator
       subdirectory: "/helm"
-      yamlPath: awms_guacamole
     secrets: inherit
 
   update-helm-yaml:
