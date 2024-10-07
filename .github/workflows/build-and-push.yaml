@@ -17,7 +17,7 @@ jobs:
     secrets: inherit
   
   helm_package:
-    uses: lsc-sde/lsc-sde/.github/workflows/helm-release.yaml@main
+    uses: lsc-sde/lsc-sde/.github/workflows/helm-package.yaml@main
     needs: 
     - buildandpush
     with:
@@ -25,4 +25,16 @@ jobs:
       directory: products/sde/analytics-workspace-management/awms-guacamole-operator
       subdirectory: "/helm"
       yamlPath: awms_guacamole
+    secrets: inherit
+
+  update-helm-yaml:
+    uses: lsc-sde/lsc-sde/.github/workflows/update-yaml.yaml@main
+    needs: 
+    - buildandpush
+    - helm_package
+    with:
+      repository: lsc-sde/iac-flux-lscsde
+      path: "core/helm-config.yaml"
+      yamlPath: ".components.awms_guacamole.chart_version"
+      newValue: "${{ needs.buildandpush.outputs.GitVersion_SemVer }}"
     secrets: inherit
