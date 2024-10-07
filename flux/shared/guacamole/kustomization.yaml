@@ -10,3 +10,4 @@ generatorOptions:
 resources:
 - release.yaml
 - repository.yaml
+- secret.yaml

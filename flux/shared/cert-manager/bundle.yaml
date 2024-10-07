@@ -1,0 +1,33 @@
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: awms-guacamole-certificate-authority  
+spec:
+  sources:
+  - useDefaultCAs: false
+
+  - secret:
+      name: "awms-guacamole-certificate-authority-tls"
+      key: "tls.crt"
+
+  - configMap:
+      name: nhs-certificates
+      key: root-nwsis-ca.crt
+      
+  - configMap:
+      name: nhs-certificates
+      key: sub-lth-ca
+
+  target:
+    configMap:
+      key: "ca-certificates.crt"
+    additionalFormats:
+      jks:
+        key: "awms-guacamole.jks"
+      pkcs12:
+        key: "awms-guacamole.p12"
+
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: ${awms_guacamole_namespace}
+        
