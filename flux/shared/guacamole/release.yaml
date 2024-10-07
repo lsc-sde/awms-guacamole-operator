@@ -1,0 +1,35 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: awms-guacamole-operator
+  namespace: ${awms_guacamole_namespace}
+  annotations:
+    xlscsde.nhs.uk/flux-branch: ${awms_guacamole_branch}
+spec:
+  targetNamespace: ${awms_guacamole_namespace}
+  releaseName: awms-guacamole-operator
+  chart:
+    spec:
+      chart: awms-guacamole-operator
+      version: ${awms_guacamole_chart_version}
+      sourceRef:
+        kind: HelmRepository
+        name: awms-guacamole-operator
+        namespace: ${awms_guacamole_namespace}
+  interval: 5m0s
+  install:
+    remediation:
+      retries: -1
+    disableWait: true
+    disableWaitForJobs: true
+  upgrade:
+    remediation:
+      retries: -1
+    disableWait: true
+    disableWaitForJobs: true
+  dependsOn:
+  - name: guacamole
+    namespace: ${guacamole_namespace}
+  valuesFrom:
+  - kind: ConfigMap
+    name: operator-config

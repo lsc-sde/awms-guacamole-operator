@@ -1,0 +1,15 @@
+image: ${awms_guacamole_image}
+env:
+- name: NAMESPACE
+  value: ${awms_guacamole_namespace}
+- name: DB_NAME
+  value: guacamole
+- name: DB_HOST
+  value: ${postgresql_server}
+- name: DB_USER
+  value: guacamole@${postgresql_server}
+- name: DB_PASS
+  valueFrom:
+    secretKeyRef:
+      name: guacamole
+      key: db-password
