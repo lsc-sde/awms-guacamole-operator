@@ -8,5 +8,5 @@ roleRef:
   name: awms-guacamole
 subjects:
 - kind: ServiceAccount
-  name: awms-guacamole
+  name: awms-guacamole-operator
   namespace: ${awms_guacamole_namespace}
