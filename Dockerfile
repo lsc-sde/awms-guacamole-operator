@@ -6,7 +6,6 @@ ENV DB_USER="guacamole"
 ENV DB_PASS="guacamole"
 ENV DB_PORT="5432"
 ENV IMAGE_NAME="lscsde/analytics-vnc-client:0.1.5"
-ENV GUAC_NAMESPACE="guacamole"
 ENV NAMESPACE="guacamole"
 
 RUN apk add gcc
