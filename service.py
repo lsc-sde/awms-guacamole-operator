@@ -152,6 +152,12 @@ def create_deployment_object(deployment_name, username, workspace, replicas):
         name=deployment_name,
         image=os.environ.get("IMAGE_NAME"),
         ports=[client.V1ContainerPort(container_port=5900)],
+        env=[
+            client.V1EnvVar(
+                name="BROWSER_URL",
+                value=os.environ.get("BROWSER_URL")
+            )
+        ]
         volume_mounts=[
             client.V1VolumeMount(
                 name="guacamole-certificates",

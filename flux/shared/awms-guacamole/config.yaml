@@ -1,5 +1,7 @@
 image: ${awms_guacamole_image}
 env:
+- name: BROWSER_URL
+  value: https://${environment_dns_prefix}guacamole${environment_dns_suffix}.${private_dnz_zone}
 - name: NAMESPACE
   value: ${guacamole_namespace}
 - name: DB_NAME
