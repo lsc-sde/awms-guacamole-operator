@@ -157,7 +157,7 @@ def create_deployment_object(deployment_name, username, workspace, replicas):
                 name="BROWSER_URL",
                 value=os.environ.get("BROWSER_URL")
             )
-        ]
+        ],
         volume_mounts=[
             client.V1VolumeMount(
                 name="guacamole-certificates",
