@@ -333,6 +333,7 @@ def patch_status(body, new_status : str):
 @kopf.on.update(group=group, kind=kind)
 @kopf.on.resume(group=group, kind=kind)
 async def binding_updated(body, **_):
+    namespace = os.environ.get("NAMESPACE", "guacamole")
     workspace = get_workspace(body)
     username = get_username(body)
     deployment_name = get_deployment_name(body)
@@ -355,7 +356,7 @@ async def binding_updated(body, **_):
     set_connection_group_permission(body, cursor, user_entity_id, connection_group_id)
     set_connection_parameter(body, cursor, connection_id, "disable-copy", "true")
     set_connection_parameter(body, cursor, connection_id, "disable-paste", "true")
-    set_connection_parameter(body, cursor, connection_id, "hostname", f"client-{deployment_name}.guacamole.svc.cluster.local")
+    set_connection_parameter(body, cursor, connection_id, "hostname", f"client-{deployment_name}.{namespace}.svc.cluster.local")
     set_connection_parameter(body, cursor, connection_id, "password", "1234")
     set_connection_parameter(body, cursor, connection_id, "port", "5900")
     
