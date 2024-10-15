@@ -335,6 +335,12 @@ def patch_status(body, new_status : str):
     kopf.info(body, reason='StateUpdated', message=f"Status updated to {new_status} FROM {current_status}")
     return patched_object
 
+
+@kopf.on.startup()
+def configure(settings: kopf.OperatorSettings, **_):
+    settings.watching.connect_timeout = 60
+    settings.watching.server_timeout = 60
+
 @kopf.on.create(group=group, kind=kind)
 @kopf.on.update(group=group, kind=kind)
 @kopf.on.resume(group=group, kind=kind)
