@@ -1,7 +1,8 @@
 ---
 title: AWMS Guacamole Operator
 layout: page
-parent: Components
+parent:  Virtual Desktop Infrastructure
+grand_parent: Architecture
 ---
 
 
